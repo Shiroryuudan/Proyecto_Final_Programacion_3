@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MJL_Ecommerce.Models.Factura_Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Indice</h1>
+
+<p>
+    <a asp-action="Create">Crear nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Factura)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Factura.Codigo)
+            </td>
+            <td>
+                    @Html.ActionLink("Editar", "Edit", new { /* Productoid=item.ForeignKey */ }) |
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

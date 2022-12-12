@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MJL_Ecommerce.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Indice</h1>
+
+<p>
+    <a asp-action="Create">Crear nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Producto
+            </th>
+            <th>
+                Descripcion
+            </th>
+            <th>
+                Imagen
+            </th>
+            <th>
+                Precio
+            </th>
+            <th>
+                Origen
+            </th>
+            <th>
+                Ubicacion
+            </th>
+            <th>
+                Fabricante
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Imagen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Origenes.Lugar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ubicaciones.Lugar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fabricantess.Fabricante)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
