@@ -67,25 +67,15 @@ namespace MJL_Ecommerce.Controllers
             _context.Add(factura_Producto);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+
+
+            if (ModelState.IsValid)
+            {
+
+            }
+
             ViewData["FacturaId"] = new SelectList(_context.Facturas, "Id", "Id", factura_Producto.FacturaId);
             ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id", factura_Producto.ProductoId);
-
-
-            var factura = await _context.Facturas.FindAsync(factura_Producto);
-            factura.total += (factura_Producto.IdProductoNavigation.Precio);
-
-
-
-            try
-            {
-                _context.Update(factura);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-
-            }
-
 
             return View(factura_Producto);
         }
