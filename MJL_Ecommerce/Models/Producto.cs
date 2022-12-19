@@ -21,7 +21,9 @@ namespace MJL_Ecommerce.Models
         //public List<Origen> Origenes { get; set; }
 
 
-        public List<Factura_Producto> Factura_Productos { get; set; }
+        //public List<Factura_Producto> Factura_Productos { get; set; }
+
+        public virtual ICollection<Factura_Producto> Factura_Productos { get; set; }
 
         public int OrigenId { get; set; }
         [ForeignKey("OrigenId")]

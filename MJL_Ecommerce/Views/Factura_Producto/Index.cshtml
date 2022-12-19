@@ -1,40 +1,63 @@
 ﻿@model IEnumerable<MJL_Ecommerce.Models.Factura_Producto>
 
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.rtl.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Indice</h1>
+<h2>Indice</h2>
 
-<p>
-    <a asp-action="Create">Crear nuevo</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Producto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Factura)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Factura.Codigo)
-            </td>
-            <td>
-                    @Html.ActionLink("Editar", "Edit", new { /* Productoid=item.ForeignKey */ }) |
+<div class="pt-4">
+    <button style="background-color:lightgray; border-color:black; color:brown" class="p-button"> @Html.ActionLink("Crear Nuevo", "Create") </button>
+</div>
 
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="card">
+    <div class="text-center">
+        <h4>Lista de Facturas por Producto</h4>
+    </div>
+    <div class="grid">
+        @foreach (var item in Model)
+        {
+            <!--Cada producto-->
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="card product-grid-item">
+
+
+                    <!-- Cod_Factura -->
+                    <div class="text-center product-name pt-4">
+                        Código Factura: @Html.DisplayFor(modelItem => item.IdFacturaNavigation.Codigo)
+                    </div>
+
+                    <!-- Producto -->
+                    <div class="text-center product-name pt-4">
+                        Productos: @Html.DisplayFor(modelItem => item.IdProductoNavigation.NombreProducto)
+                    </div>
+                    <!-- Total -->
+                    <div class="text-center product-name pt-4">
+                        Precio: @Html.DisplayFor(modelItem => item.IdProductoNavigation.Precio)
+                    </div>
+                    <div >
+
+                        
+                         
+
+                    </div>
+                    <!-- Boton -->
+                    <div class="text-center pt-4">
+
+                        <button style="background-color:lightgray; border-color:black; color:white" class="p-button"> <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> </button>
+                        <button style="background-color:lightgray; border-color:black; color:white" class="p-button"> <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> </button>
+                        <button style="background-color:lightgray; border-color:black; color:brown" class="p-button"> <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a> </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+                        

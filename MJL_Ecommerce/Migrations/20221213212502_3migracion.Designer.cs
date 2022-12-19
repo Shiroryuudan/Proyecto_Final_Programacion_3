@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MJL_Ecommerce.Migrations
 {
     [DbContext(typeof(ECommerceDbContextcs))]
-    [Migration("20221212014354_segundamigracion")]
-    partial class segundamigracion
+    [Migration("20221213212502_3migracion")]
+    partial class _3migracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,17 +70,27 @@ namespace MJL_Ecommerce.Migrations
 
             modelBuilder.Entity("MJL_Ecommerce.Models.Factura_Producto", b =>
                 {
-                    b.Property<int>("FacturaId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("FacturaId")
+                        .HasColumnType("int")
+                        .HasColumnName("idFactura");
 
                     b.Property<int>("ProductoId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idProducto");
 
-                    b.HasKey("FacturaId", "ProductoId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacturaId");
 
                     b.HasIndex("ProductoId");
 
-                    b.ToTable("Factura_Productos");
+                    b.ToTable("ProductosFactura", (string)null);
                 });
 
             modelBuilder.Entity("MJL_Ecommerce.Models.Origen", b =>
@@ -162,21 +172,21 @@ namespace MJL_Ecommerce.Migrations
 
             modelBuilder.Entity("MJL_Ecommerce.Models.Factura_Producto", b =>
                 {
-                    b.HasOne("MJL_Ecommerce.Models.Factura", "Factura")
+                    b.HasOne("MJL_Ecommerce.Models.Factura", "IdFacturaNavigation")
                         .WithMany("Factura_Productos")
                         .HasForeignKey("FacturaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_ProductosFactura_Factura");
 
-                    b.HasOne("MJL_Ecommerce.Models.Producto", "Producto")
+                    b.HasOne("MJL_Ecommerce.Models.Producto", "IdProductoNavigation")
                         .WithMany("Factura_Productos")
                         .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_ProductosFactura_Productos");
 
-                    b.Navigation("Factura");
+                    b.Navigation("IdFacturaNavigation");
 
-                    b.Navigation("Producto");
+                    b.Navigation("IdProductoNavigation");
                 });
 
             modelBuilder.Entity("MJL_Ecommerce.Models.Producto", b =>

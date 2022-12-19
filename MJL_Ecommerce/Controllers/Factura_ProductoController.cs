@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +25,7 @@ namespace MJL_Ecommerce.Controllers
         // GET: Factura_Producto
         public async Task<IActionResult> Index()
         {
-            var eCommerceDbContextcs = _context.Factura_Productos.Include(f => f.Factura).Include(f => f.Producto);
+            var eCommerceDbContextcs = _context.Factura_Productos.Include(f => f.IdFacturaNavigation).Include(f => f.IdProductoNavigation);
             return View(await eCommerceDbContextcs.ToListAsync());
         }
 
@@ -37,9 +38,9 @@ namespace MJL_Ecommerce.Controllers
             }
 
             var factura_Producto = await _context.Factura_Productos
-                .Include(f => f.Factura)
-                .Include(f => f.Producto)
-                .FirstOrDefaultAsync(m => m.FacturaId == id);
+                .Include(f => f.IdFacturaNavigation)
+                .Include(f => f.IdProductoNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (factura_Producto == null)
             {
                 return NotFound();
@@ -61,17 +62,31 @@ namespace MJL_Ecommerce.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductoId,FacturaId")] Factura_Producto factura_Producto)
+        public async Task<IActionResult> Create([Bind("Id,ProductoId,FacturaId")] Factura_Producto factura_Producto)
         {
             _context.Add(factura_Producto);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-            if (ModelState.IsValid)
+            ViewData["FacturaId"] = new SelectList(_context.Facturas, "Id", "Id", factura_Producto.FacturaId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id", factura_Producto.ProductoId);
+
+
+            var factura = await _context.Facturas.FindAsync(factura_Producto);
+            factura.total += (factura_Producto.IdProductoNavigation.Precio);
+
+
+
+            try
+            {
+                _context.Update(factura);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
             {
 
             }
-            ViewData["FacturaId"] = new SelectList(_context.Facturas, "Id", "Id", factura_Producto.FacturaId);
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id", factura_Producto.ProductoId);
+
+
             return View(factura_Producto);
         }
 
@@ -88,8 +103,8 @@ namespace MJL_Ecommerce.Controllers
             {
                 return NotFound();
             }
-            ViewData["FacturaId"] = new SelectList(_context.Facturas, "Id", "Id", factura_Producto.FacturaId);
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id", factura_Producto.ProductoId);
+            ViewData["FacturaId"] = new SelectList(_context.Facturas, "Id", "Codigo", factura_Producto.FacturaId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "NombreProducto", factura_Producto.ProductoId);
             return View(factura_Producto);
         }
 
@@ -98,32 +113,35 @@ namespace MJL_Ecommerce.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,FacturaId")] Factura_Producto factura_Producto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductoId,FacturaId")] Factura_Producto factura_Producto)
         {
-            if (id != factura_Producto.FacturaId)
+
+            if (id != factura_Producto.Id)
             {
                 return NotFound();
             }
 
+            try
+            {
+                _context.Update(factura_Producto);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!Factura_ProductoExists(factura_Producto.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(factura_Producto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!Factura_ProductoExists(factura_Producto.FacturaId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                
             }
             ViewData["FacturaId"] = new SelectList(_context.Facturas, "Id", "Id", factura_Producto.FacturaId);
             ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id", factura_Producto.ProductoId);
@@ -139,9 +157,9 @@ namespace MJL_Ecommerce.Controllers
             }
 
             var factura_Producto = await _context.Factura_Productos
-                .Include(f => f.Factura)
-                .Include(f => f.Producto)
-                .FirstOrDefaultAsync(m => m.FacturaId == id);
+                .Include(f => f.IdFacturaNavigation)
+                .Include(f => f.IdProductoNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (factura_Producto == null)
             {
                 return NotFound();
@@ -171,7 +189,7 @@ namespace MJL_Ecommerce.Controllers
 
         private bool Factura_ProductoExists(int id)
         {
-          return _context.Factura_Productos.Any(e => e.FacturaId == id);
+          return _context.Factura_Productos.Any(e => e.Id == id);
         }
     }
 }

@@ -1,71 +1,69 @@
 ﻿@model IEnumerable<MJL_Ecommerce.Models.Producto>
-
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.rtl.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Indice</h1>
+<h2>Indice</h2>
+<div class="pt-4">
+    <button style="background-color:lightgray; border-color:black; color:brown" class="p-button"> @Html.ActionLink("Crear Nuevo", "Create") </button>
+</div>
 
-<p>
-    <a asp-action="Create">Crear nuevo</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Producto
-            </th>
-            <th>
-                Descripcion
-            </th>
-            <th>
-                Imagen
-            </th>
-            <th>
-                Precio
-            </th>
-            <th>
-                Origen
-            </th>
-            <th>
-                Ubicacion
-            </th>
-            <th>
-                Fabricante
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Origenes.Lugar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ubicaciones.Lugar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fabricantess.Fabricante)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="card">
+    <div class="text-center">
+        <h4>Lista de Productos</h4>
+    </div>
+    <div class="grid">
+        @foreach (var item in Model)
+        {
+            <!--Cada producto-->
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="card product-grid-item">
+                    <!-- Imagen -->
+                    <div class="text-center">
+                        <img src="@Html.DisplayFor(modelItem => item.Imagen)"
+                         alt=""
+                         class="product-image shadow-6"
+                         width="250"
+                         height="200" />
+                    </div>
+                    <!-- Producto -->
+                    <div class="text-center product-name pt-4">
+                        Producto: @Html.DisplayFor(modelItem => item.NombreProducto)
+                    </div>
+                    <!-- Descripcion -->
+                    <div class="text-center product-name pt-4">
+                        Descripción: @Html.DisplayFor(modelItem => item.Description)
+                    </div>
+                    <!-- Precio -->
+                    <div class="text-center product-name pt-4">
+                        Precio: @Html.DisplayFor(modelItem => item.Precio)
+                    </div>
+                    <!-- Origen -->
+                    <div class="text-center product-name pt-4">
+                        Origen: @Html.DisplayFor(modelItem => item.Origenes.Lugar)
+                    </div>
+                    <!-- Ubicacion -->
+                    <div class="text-center product-name pt-4">
+                        Ubicacion: @Html.DisplayFor(modelItem => item.Ubicaciones.Lugar)
+                    </div>
+
+                    <!-- Fabricante -->
+                    <div class="text-center product-name pt-4">
+                        Fabricante: @Html.DisplayFor(modelItem => item.Fabricantess.Fabricante)
+                    </div>
+                    <!-- Boton -->
+                    <div class="text-center pt-4">
+
+                        <button style="background-color:lightgray; border-color:black; color:white" class="p-button"> <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> </button>
+                        <button style="background-color:lightgray; border-color:black; color:white" class="p-button"> <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> </button>
+                        <button style="background-color:lightgray; border-color:black; color:brown" class="p-button"> <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a> </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

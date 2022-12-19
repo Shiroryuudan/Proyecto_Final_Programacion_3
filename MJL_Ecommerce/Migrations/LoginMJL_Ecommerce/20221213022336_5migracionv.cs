@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MJL_Ecommerce.Migrations.LoginMJL_Ecommerce
 {
-    public partial class _3migracionv : Migration
+    public partial class _5migracionv : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

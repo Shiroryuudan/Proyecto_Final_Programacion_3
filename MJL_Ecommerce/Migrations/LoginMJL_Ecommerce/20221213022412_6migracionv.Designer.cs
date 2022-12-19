@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MJL_Ecommerce.Migrations.LoginMJL_Ecommerce
 {
     [DbContext(typeof(LoginMJL_EcommerceContext))]
-    [Migration("20221212035127_3migracionv")]
-    partial class _3migracionv
+    [Migration("20221213022412_6migracionv")]
+    partial class _6migracionv
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

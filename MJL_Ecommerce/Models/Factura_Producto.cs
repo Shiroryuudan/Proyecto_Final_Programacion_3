@@ -7,14 +7,21 @@ namespace MJL_Ecommerce.Models
     public class Factura_Producto
     {
         [Key]
-        //public int Id { get; set; }
+        [Required]
+        public int Id { get; set; }
+        
 
-        public int ProductoId { get; set; }
         [ForeignKey("ProductoId")]
-        public Producto Producto { get; set; }
-
-        public int FacturaId { get; set; }
+        public int ProductoId { get; set; }
+        
+        
         [ForeignKey("FacturaId")]
-        public Factura Factura { get; set; }
+        public int FacturaId { get; set; }
+
+        //public Producto Productos { get; set; }
+        //public Factura Facturas { get; set; }
+
+        public virtual Factura IdFacturaNavigation { get; set; } = null!;
+        public virtual Producto IdProductoNavigation { get; set; } = null!;
     }
 }

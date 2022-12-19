@@ -29,16 +29,20 @@
                 <span asp-validation-for="total" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <button style="background-color:lightgray; border-color:black; color:white" class="p-button"> <input type="submit" value="Guardar" class="btn btn-primary" /> </button>
+
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Regresar</a>
+    <button style="background-color:lightgray; border-color:black; color:white" class="p-button"> <a asp-action="Index">Regresar</a> </button>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -4,7 +4,7 @@
 
 namespace MJL_Ecommerce.Migrations
 {
-    public partial class primeramigracion : Migration
+    public partial class _5migracion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -101,35 +101,28 @@ namespace MJL_Ecommerce.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Factura_Productos",
+                name: "ProductosFactura",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    ProductoId = table.Column<int>(type: "int", nullable: false),
-                    FacturaId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    idProducto = table.Column<int>(type: "int", nullable: false),
+                    idFactura = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Factura_Productos", x => new { x.FacturaId, x.ProductoId, x.Id });
-                    table.UniqueConstraint("AK_Factura_Productos_Id", x => x.Id);
+                    table.PrimaryKey("PK_ProductosFactura", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Factura_Productos_Facturas_FacturaId",
-                        column: x => x.FacturaId,
+                        name: "FK_ProductosFactura_Factura",
+                        column: x => x.idFactura,
                         principalTable: "Facturas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Factura_Productos_Productos_ProductoId",
-                        column: x => x.ProductoId,
+                        name: "FK_ProductosFactura_Productos",
+                        column: x => x.idProducto,
                         principalTable: "Productos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Factura_Productos_ProductoId",
-                table: "Factura_Productos",
-                column: "ProductoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Productos_FabricantesId",
@@ -145,12 +138,22 @@ namespace MJL_Ecommerce.Migrations
                 name: "IX_Productos_UbicacionId",
                 table: "Productos",
                 column: "UbicacionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductosFactura_idFactura",
+                table: "ProductosFactura",
+                column: "idFactura");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductosFactura_idProducto",
+                table: "ProductosFactura",
+                column: "idProducto");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Factura_Productos");
+                name: "ProductosFactura");
 
             migrationBuilder.DropTable(
                 name: "Facturas");

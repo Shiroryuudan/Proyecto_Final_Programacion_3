@@ -92,9 +92,9 @@ namespace MJL_Ecommerce.Controllers
             {
                 return NotFound();
             }
-            ViewData["FabricantesId"] = new SelectList(_context.Fabricantes, "Id", "Id", producto.FabricantesId);
-            ViewData["OrigenId"] = new SelectList(_context.Origenes, "Id", "Id", producto.OrigenId);
-            ViewData["UbicacionId"] = new SelectList(_context.Ubicaciones, "Id", "Id", producto.UbicacionId);
+            ViewData["FabricantesId"] = new SelectList(_context.Fabricantes, "Id", "Fabricante", producto.FabricantesId);
+            ViewData["OrigenId"] = new SelectList(_context.Origenes, "Id", "Lugar", producto.OrigenId);
+            ViewData["UbicacionId"] = new SelectList(_context.Ubicaciones, "Id", "Lugar", producto.UbicacionId);
             return View(producto);
         }
 
